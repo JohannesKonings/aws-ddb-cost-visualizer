@@ -4,12 +4,34 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import * as fs from 'fs';
 
-const AwsProfiles = () => {
+interface AwsProfilesProps {
+    setSelectedAwsProfile: (value: string) => void;
+}
+
+const AwsProfiles = ({ setSelectedAwsProfile }: AwsProfilesProps) => {
     const [profile, setProfile] = React.useState('');
+    const [profileList, setProfileList] = React.useState([]);
     const handleChange = (event: any) => {
-        setProfile(event.target.value);
+        const profile = event.target.value;
+        setProfile(profile);
+        setSelectedAwsProfile(profile);
     };
+
+    React.useEffect(() => {
+        console.log('profile:', profile);
+        fs.readFile(`${process.env.HOME}/.aws/credentials`, 'utf8', (err, data) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            const lines = data.split('\n');
+            const profiles = lines.filter(line => line.startsWith('[')).map(line => line.replace(/\[|\]/g, ''));
+            setProfileList(profiles);
+
+        });
+    }, [])
 
 
     return (<Box sx={{ minWidth: 120 }}><FormControl fullWidth>
@@ -21,9 +43,10 @@ const AwsProfiles = () => {
             label="AWS Profiles"
             onChange={handleChange}
         >
-            <MenuItem value={10}>Ten</MenuItem>
+            {profileList.map((profile) => <MenuItem key={profile} value={profile}>{profile}</MenuItem>)}
+            {/* <MenuItem value={10}>Ten</MenuItem>
             <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
+            <MenuItem value={30}>Thirty test</MenuItem> */}
         </Select>
     </FormControl> </Box>);
 }
