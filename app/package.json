@@ -47,6 +47,8 @@
     "webpack-cli": "^4.9.2"
   },
   "dependencies": {
+    "@aws-sdk/client-cloudwatch": "3.49.0",
+    "@aws-sdk/credential-providers": "^3.49.0",
     "@emotion/react": "11.7.1",
     "@emotion/styled": "11.6.0",
     "@mui/material": "5.3.1",

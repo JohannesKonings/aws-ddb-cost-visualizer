@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -19,8 +19,8 @@ const AwsProfiles = ({ setSelectedAwsProfile }: AwsProfilesProps) => {
         setSelectedAwsProfile(profile);
     };
 
-    React.useEffect(() => {
-        console.log('profile:', profile);
+    useEffect(() => {
+        console.log('env home:', `${process.env.HOME}`);
         fs.readFile(`${process.env.HOME}/.aws/credentials`, 'utf8', (err, data) => {
             if (err) {
                 console.log(err);
