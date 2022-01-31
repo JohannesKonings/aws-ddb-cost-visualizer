@@ -11,6 +11,8 @@ module.exports = {
       '@electron-forge/plugin-webpack',
       {
         mainConfig: './webpack.main.config.js',
+        devContentSecurityPolicy:
+          "connect-src 'self' https://monitoring.eu-central-1.amazonaws.com/ 'unsafe-eval'",
         renderer: {
           nodeIntegration: true,
           config: './webpack.renderer.config.js',
