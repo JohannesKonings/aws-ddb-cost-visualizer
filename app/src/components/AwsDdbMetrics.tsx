@@ -1,50 +1,35 @@
 import React, { useEffect } from 'react';
-import { CloudWatchClient, ListMetricsCommand } from "@aws-sdk/client-cloudwatch";
-import { fromIni } from '@aws-sdk/credential-provider-ini'; //'@aws-sdk/credential-providers';
+import { MetricTableName } from './../types';
+import { getCloudWatchMetricList } from './../sdk/cloudWatchMetrics';
+import CovizTable from './CovizTable';
 
 interface AwsProfilesProps {
     selectedAwsProfile: string;
 }
 
 const AwsDdbMetrics = ({ selectedAwsProfile }: AwsProfilesProps) => {
+    const [metricTableNames, setMetricTableNames] = React.useState([] as MetricTableName[]);
+
+    const headCells = [{
+        id: 'metricName',
+        label: 'Metric Name'
+    }]
+
+    const rowData = metricTableNames.map((metricTableName) => {
+        return { id: metricTableName.tableName, cellData: [metricTableName.tableName] }
+    })
 
     useEffect(() => {
         (async () => {
-            console.log('profile:', selectedAwsProfile);
-            const credentials = fromIni({
-                profile: selectedAwsProfile
-            }
-            );
-            console.log('credentials:', credentials);
-
-            const cloudWatchClient = new CloudWatchClient({
-                credentials: fromIni({ profile: selectedAwsProfile }),
-                region: 'eu-central-1'
-
-            })
-            console.log('cloudWatchClient:', cloudWatchClient);
-            const params = {
-                Dimensions: [
-                    {
-                        Name: "BackgroundData-5jbqaffk2nbtpfifi4j4avsqfm-prod",
-                    },
-                ],
-                MetricName: "ConsumedReadCapacityUnits",
-                Namespace: "AWS/DynamoDB",
-            };
-
-            try {
-                const data = await cloudWatchClient.send(new ListMetricsCommand(params));
-                console.log("Success. Metrics:", JSON.stringify(data.Metrics));
-                return data;
-            } catch (err) {
-                console.log("Error", err);
-            }
+            const cloudWatchMetricList: MetricTableName[] = await getCloudWatchMetricList(selectedAwsProfile)
+            setMetricTableNames(cloudWatchMetricList);
 
         })();
     }, [selectedAwsProfile]);
 
-    return (<h1>{selectedAwsProfile}</h1>);
+    return (<div><h1>Tables</h1><CovizTable headCells={headCells} rowData={rowData} /></div>);
 }
 
 export default AwsDdbMetrics
+
+
