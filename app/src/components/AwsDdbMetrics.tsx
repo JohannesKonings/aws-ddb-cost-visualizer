@@ -18,6 +18,9 @@ const AwsDdbMetrics = ({ selectedAwsProfile }: AwsProfilesProps) => {
     const rowData = metricTableNames.map((metricTableName) => {
         return { id: metricTableName.tableName, cellData: [metricTableName.tableName] }
     })
+    const sortedRowData = rowData.sort((a, b) => {
+        return a.cellData[0].localeCompare(b.cellData[0])
+    })
 
     useEffect(() => {
         (async () => {
@@ -27,7 +30,7 @@ const AwsDdbMetrics = ({ selectedAwsProfile }: AwsProfilesProps) => {
         })();
     }, [selectedAwsProfile]);
 
-    return (<div><h1>Tables</h1><CovizTable headCells={headCells} rowData={rowData} /></div>);
+    return (<div><h1>Tables</h1><CovizTable headCells={headCells} rowData={sortedRowData} awsProfileName={selectedAwsProfile} /></div>);
 }
 
 export default AwsDdbMetrics
