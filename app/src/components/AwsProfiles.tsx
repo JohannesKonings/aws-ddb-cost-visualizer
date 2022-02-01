@@ -5,6 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import * as fs from 'fs';
+import * as os from 'os';
 
 interface AwsProfilesProps {
     setSelectedAwsProfile: (value: string) => void;
@@ -20,8 +21,8 @@ const AwsProfiles = ({ setSelectedAwsProfile }: AwsProfilesProps) => {
     };
 
     useEffect(() => {
-        console.log('env home:', `${process.env.HOME}`);
-        fs.readFile(`${process.env.HOME}/.aws/credentials`, 'utf8', (err, data) => {
+        const credentialsFile = os.homedir() + '/.aws/credentials';
+        fs.readFile(credentialsFile, 'utf8', (err, data) => {
             if (err) {
                 console.log(err);
                 return;
@@ -29,7 +30,6 @@ const AwsProfiles = ({ setSelectedAwsProfile }: AwsProfilesProps) => {
             const lines = data.split('\n');
             const profiles = lines.filter(line => line.startsWith('[')).map(line => line.replace(/\[|\]/g, ''));
             setProfileList(profiles);
-
         });
     }, [])
 

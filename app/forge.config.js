@@ -1,9 +1,14 @@
 module.exports = {
-  packagerConfig: {},
   makers: [
     {
       name: '@electron-forge/maker-squirrel',
       config: {},
+    },
+    {
+      name: '@electron-forge/maker-deb',
+      config: {
+        options: {},
+      },
     },
   ],
   plugins: [
@@ -11,8 +16,7 @@ module.exports = {
       '@electron-forge/plugin-webpack',
       {
         mainConfig: './webpack.main.config.js',
-        devContentSecurityPolicy:
-          "connect-src 'self' https://monitoring.eu-central-1.amazonaws.com/ 'unsafe-eval'",
+        devContentSecurityPolicy: "connect-src 'self' https://monitoring.eu-central-1.amazonaws.com/ 'unsafe-eval'",
         renderer: {
           nodeIntegration: true,
           config: './webpack.renderer.config.js',
