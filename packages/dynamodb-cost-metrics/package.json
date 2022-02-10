@@ -1,0 +1,10 @@
+{
+  "name": "dynamodb-cost-metrics",
+  "version": "0.0.2",
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "^4.5.5"
+  }
+}
