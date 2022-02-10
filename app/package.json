@@ -1,7 +1,7 @@
 {
-  "name": "ddb-coviz",
-  "productName": "ddb-coviz",
-  "version": "0.0.2",
+  "name": "ddb-cost-viz",
+  "productName": "ddb-cost-viz",
+  "version": "0.0.3",
   "description": "AWS DynamoDB Cost Visualizer",
   "main": ".webpack/main",
   "scripts": {

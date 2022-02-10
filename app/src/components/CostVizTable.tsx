@@ -17,7 +17,7 @@ import Typography from '@mui/material/Typography';
 
 import Grid from '@mui/material/Grid';
 
-import { getCloudWatchMetricData4Table } from './../sdk/cloudWatchMetrics';
+import { getCloudWatchMetricData4Table } from '../sdk/cloudWatchMetrics';
 
 const bull = (
   <Box component="span" sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}>

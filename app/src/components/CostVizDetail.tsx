@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { DetailData } from './../types';
+import { DetailData } from '../types';
 
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';

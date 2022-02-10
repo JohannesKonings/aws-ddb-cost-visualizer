@@ -7,9 +7,9 @@ import {
 } from './../sdk/cloudWatchMetrics';
 import { getPriceforService } from './../sdk/pricing';
 import { getCostforService } from './../sdk/costExplorer';
-import CovizTable from './CovizTable';
-import CovizDetail from './CovizDetail';
-import CovizOverview from './CovizOverview';
+import CostVizTable from './CostVizTable';
+import CostVizDetail from './CostVizDetail';
+import CostVizOverview from './CostVizOverview';
 
 import Grid from '@mui/material/Grid';
 
@@ -70,13 +70,13 @@ const AwsDdbMetrics = ({ selectedAwsProfile }: AwsProfilesProps) => {
       <h1>Tables</h1>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <CovizOverview overviewData={overviewData} />
+          <CostVizOverview overviewData={overviewData} />
         </Grid>
         <Grid item xs={8}>
-          <CovizTable headCells={headCells} rowData={sortedRowData} setSelectedRow={setSelectedRow} />
+          <CostVizTable headCells={headCells} rowData={sortedRowData} setSelectedRow={setSelectedRow} />
         </Grid>
         <Grid item xs={4}>
-          {selectedRow && <CovizDetail detailData={detailData} />}
+          {selectedRow && <CostVizDetail detailData={detailData} />}
         </Grid>
       </Grid>
     </div>
