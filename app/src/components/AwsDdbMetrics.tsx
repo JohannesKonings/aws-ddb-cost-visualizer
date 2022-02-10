@@ -1,8 +1,15 @@
 import React, { useEffect } from 'react';
-import { DetailData, MetricTableName } from './../types';
-import { getCloudWatchMetricList } from './../sdk/cloudWatchMetrics';
+import { DetailData, MetricTableName, OverviewData } from './../types';
+import {
+  getCloudWatchMetricData4Table,
+  getCloudWatchMetricList,
+  getCloudWatchMetricDataTotal,
+} from './../sdk/cloudWatchMetrics';
+import { getPriceforService } from './../sdk/pricing';
+import { getCostforService } from './../sdk/costExplorer';
 import CovizTable from './CovizTable';
 import CovizDetail from './CovizDetail';
+import CovizOverview from './CovizOverview';
 
 import Grid from '@mui/material/Grid';
 
@@ -13,19 +20,25 @@ interface AwsProfilesProps {
 const AwsDdbMetrics = ({ selectedAwsProfile }: AwsProfilesProps) => {
   const [metricTableNames, setMetricTableNames] = React.useState([] as MetricTableName[]);
   const [selectedRow, setSelectedRow] = React.useState('');
+  const [overviewData, setOverviewData] = React.useState({} as OverviewData);
   const [detailData, setDetailData] = React.useState({} as DetailData);
 
   useEffect(() => {
     (async () => {
       const cloudWatchMetricList: MetricTableName[] = await getCloudWatchMetricList(selectedAwsProfile);
       setMetricTableNames(cloudWatchMetricList);
+
+      const overviewDataNumber = await getCloudWatchMetricDataTotal(cloudWatchMetricList, selectedAwsProfile);
+      // const price = await getPriceforService('dynamodb', selectedAwsProfile);
+      const priceAsString = await getCostforService('dynamodb', selectedAwsProfile);
+      setOverviewData({
+        name: 'Overview',
+        number: overviewDataNumber,
+        numberAsText: overviewDataNumber.toLocaleString(),
+        priceAsString: priceAsString,
+      });
     })();
   }, [selectedAwsProfile]);
-
-  //   console.log(e.target.innerText);
-  //   const metricTable = e.target.innerText
-  //   const cloudWatchMetricData = await getCloudWatchMetricData(metricTable, awsProfileName);
-  //   console.log("cloudWatchMetricData", cloudWatchMetricData);
 
   const headCells = [
     {
@@ -43,7 +56,11 @@ const AwsDdbMetrics = ({ selectedAwsProfile }: AwsProfilesProps) => {
 
   useEffect(() => {
     (async () => {
-      const detailData = { name: selectedRow, number: 0 };
+      const detailData = { name: selectedRow, number: 0, numberAsText: '0', price: 0 };
+      const cloudWatchMetricData = await getCloudWatchMetricData4Table(selectedRow, selectedAwsProfile);
+      detailData.number = cloudWatchMetricData;
+      detailData.numberAsText = cloudWatchMetricData.toLocaleString();
+      detailData.price = 0;
       setDetailData(detailData);
     })();
   }, [selectedRow]);
@@ -52,6 +69,9 @@ const AwsDdbMetrics = ({ selectedAwsProfile }: AwsProfilesProps) => {
     <div>
       <h1>Tables</h1>
       <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <CovizOverview overviewData={overviewData} />
+        </Grid>
         <Grid item xs={8}>
           <CovizTable headCells={headCells} rowData={sortedRowData} setSelectedRow={setSelectedRow} />
         </Grid>

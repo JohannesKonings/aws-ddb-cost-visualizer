@@ -47,6 +47,8 @@
   },
   "dependencies": {
     "@aws-sdk/client-cloudwatch": "3.49.0",
+    "@aws-sdk/client-cost-explorer": "^3.49.0",
+    "@aws-sdk/client-pricing": "^3.49.0",
     "@aws-sdk/credential-providers": "3.49.0",
     "@emotion/react": "11.7.1",
     "@emotion/styled": "11.6.0",

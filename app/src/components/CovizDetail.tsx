@@ -22,7 +22,7 @@ const CovizDetail = ({ detailData }: CovizDetailProps) => {
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
           Consumed Read
         </Typography>
-        <Typography variant="body1">{detailData.number}</Typography>
+        <Typography variant="body1">{detailData.numberAsText}</Typography>
       </CardContent>
     </Card>
   );
