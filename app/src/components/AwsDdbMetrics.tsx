@@ -1,17 +1,20 @@
 import React, { useEffect } from 'react';
-import { DetailData, MetricTableName, OverviewData } from './../types';
-import {
-  getCloudWatchMetricData4Table,
-  getCloudWatchMetricList,
-  getCloudWatchMetricDataTotal,
-} from './../sdk/cloudWatchMetrics';
-import { getPriceforService } from './../sdk/pricing';
-import { getCostforService } from './../sdk/costExplorer';
+// import { DetailData, MetricTableName, OverviewData } from './../types';
 import CostVizTable from './CostVizTable';
 import CostVizDetail from './CostVizDetail';
 import CostVizOverview from './CostVizOverview';
 
 import Grid from '@mui/material/Grid';
+
+import {
+  getCloudWatchMetricData4Table,
+  getCloudWatchMetricList,
+  getCloudWatchMetricDataTotal,
+  getCostforService,
+  DetailData,
+  MetricTableName,
+  OverviewData,
+} from 'dynamodb-cost-metrics';
 
 interface AwsProfilesProps {
   selectedAwsProfile: string;
@@ -30,6 +33,7 @@ const AwsDdbMetrics = ({ selectedAwsProfile }: AwsProfilesProps) => {
 
       const overviewDataNumber = await getCloudWatchMetricDataTotal(cloudWatchMetricList, selectedAwsProfile);
       // const price = await getPriceforService('dynamodb', selectedAwsProfile);
+      //const priceAsString = await getCostforService('dynamodb', selectedAwsProfile);
       const priceAsString = await getCostforService('dynamodb', selectedAwsProfile);
       setOverviewData({
         name: 'Overview',

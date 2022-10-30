@@ -8,7 +8,7 @@ import {
   MetricDataQuery,
 } from '@aws-sdk/client-cloudwatch';
 import { fromIni } from '@aws-sdk/credential-provider-ini'; //'@aws-sdk/credential-providers';
-import { MetricTableName } from './../types';
+import { MetricTableName } from './types';
 
 const getCloudWatchClient = async (awsProfileName: string): Promise<CloudWatchClient> => {
   const credentials = fromIni({

@@ -1,7 +1,7 @@
 {
   "name": "dynamodb-cost-metrics",
   "description": "Cost metrics of DynamoDB",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -9,5 +9,8 @@
   },
   "devDependencies": {
     "typescript": "4.5.5"
-  }
+  },
+  "files": [
+    "dist/"
+  ]
 }

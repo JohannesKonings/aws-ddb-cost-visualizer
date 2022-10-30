@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { OverviewData } from '../types';
 
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
+
+import { OverviewData } from 'dynamodb-cost-metrics';
 
 interface CovizOverviewProps {
   overviewData: OverviewData;
